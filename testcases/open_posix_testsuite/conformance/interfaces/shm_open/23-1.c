@@ -46,8 +46,8 @@
 /* The processes communicate by a shared memory object */
 #define SHM_RESULT_NAME "/result_23-1"
 
-#define NPROCESS 1000		/* Number of concurrent processes */
-#define NLOOP 1000		/* Number of shared memory object */
+#define NPROCESS 700		/* Number of concurrent processes */
+#define NLOOP 700		/* Number of shared memory object */
 
 char name[NAME_SIZE];
 int *create_cnt;
@@ -71,6 +71,11 @@ int child_func(void)
 			(*create_cnt)++;
 			sem_post(sem);
 		}
+		else {
+                        perror("An error occurs when calling shm_open() child");
+                        return PTS_UNRESOLVED;
+                }
+
 		/* get a random number [0, 20] */
 		msec = (int)(20.0 * rand() / RAND_MAX);
 		ts.tv_nsec = msec * 1000000;
